@@ -16,7 +16,6 @@ public class ArgTest {
         assertTrue(options.logging());
     }
 
-    // TODO 单独布尔类型 参数不存在
     @Test
     public void testSingleBooleanNotExists() {
         BooleanOptions options = Args.parse(BooleanOptions.class);
@@ -35,8 +34,14 @@ public class ArgTest {
         assertEquals("/user/logs", options.dir());
     }
 
-    // TODO 所有类型
 
+    @Test
+    public void testSuccess1() {
+        Options options = Args.parse(Options.class, "-l", "-p", "8080", "-d", "/usr/logs");
+        assertTrue(options.logging());
+        assertEquals(8080, options.port());
+        assertEquals("/usr/logs", options.dir());
+    }
     // sad path
     // TODO 布尔类型 后面加参数 后面加非布尔参数
     // TODO int类型 后面加非int参数
@@ -48,13 +53,7 @@ public class ArgTest {
     // TODO 字符串
 
 
-    @Disabled
-    public void testSuccess1() {
-        Options options = Args.parse(Options.class, "-l", "-p", "8080", "-d", "/usr/logs");
-        assertTrue(options.logging());
-        assertEquals(8080, options.port());
-        assertEquals("/usr/logs", options.dir());
-    }
+
 
     // -g this is a list -d 1 2 -3 5
     @Disabled
