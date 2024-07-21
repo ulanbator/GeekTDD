@@ -10,7 +10,6 @@ public class ArgTest {
     // -l -p 8080 -d /usr/logs
 
     // happy path
-    // TODO 单独布尔类型
     @Test
     public void testSingleBooleanExists() {
         BooleanOptions options = Args.parse(BooleanOptions.class, "-l");
@@ -52,9 +51,9 @@ public class ArgTest {
     // -g this is a list -d 1 2 -3 5
     @Disabled
     public void testSuccess2() {
-        OptionsList options = Args.parse(OptionsList.class, "-g","this","is","a","list","-d","1","2","-3","5");
-        assertArrayEquals(new String[] {"this", "is", "a", "list"}, options.group());
-        assertArrayEquals(new int[] {1, 2}, options.decimals());
+        OptionsList options = Args.parse(OptionsList.class, "-g", "this", "is", "a", "list", "-d", "1", "2", "-3", "5");
+        assertArrayEquals(new String[]{"this", "is", "a", "list"}, options.group());
+        assertArrayEquals(new int[]{1, 2}, options.decimals());
     }
 
     static record IntegerOptions(@Option("p") int port) {
@@ -69,7 +68,7 @@ public class ArgTest {
 
     }
 
-    static record OptionsList(@Option("g") String[] group, @Option("d") int[] decimals){
+    static record OptionsList(@Option("g") String[] group, @Option("d") int[] decimals) {
 
     }
 
