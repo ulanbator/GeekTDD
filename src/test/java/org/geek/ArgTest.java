@@ -23,10 +23,18 @@ public class ArgTest {
         assertFalse(options.logging());
     }
 
-    // TODO 单独int
     @Test
+    public void testSingleIntegerExists() {
+        IntegerOptions options = Args.parse(IntegerOptions.class, "-p", "8080");
+        assertEquals(8080, options.port());
+    }
 
-    // TODO 单独字符串
+    @Test
+    public void testSingleStringExists() {
+        StringOptions options = Args.parse(StringOptions.class, "-d", "/user/logs");
+        assertEquals("/user/logs", options.dir());
+    }
+
     // TODO 所有类型
 
     // sad path
@@ -54,6 +62,10 @@ public class ArgTest {
         OptionsList options = Args.parse(OptionsList.class, "-g", "this", "is", "a", "list", "-d", "1", "2", "-3", "5");
         assertArrayEquals(new String[]{"this", "is", "a", "list"}, options.group());
         assertArrayEquals(new int[]{1, 2}, options.decimals());
+    }
+
+    static record StringOptions(@Option("d") String dir) {
+
     }
 
     static record IntegerOptions(@Option("p") int port) {
