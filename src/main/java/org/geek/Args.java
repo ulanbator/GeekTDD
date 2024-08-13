@@ -4,8 +4,16 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Args {
+
+    private static Map<Class<?>, OptionParse> map = Map.of(
+            boolean.class, new BooleanOptionParse(),
+            int.class, new IntegerOptionParse(),
+            String.class, new StringOptionParse()
+    );
+
     public static <T> T parse(Class<T> optionClass, String... args) {
         try {
             Constructor<?> constructor = optionClass.getDeclaredConstructors()[0];
@@ -18,20 +26,11 @@ public class Args {
         }
     }
 
+
     private static Object parseObject(Parameter parameter, List<String> arguments) {
         Option option = parameter.getAnnotation(Option.class);
-        Object value = null;
-        if(parameter.getType().equals(boolean.class)) {
-            value = arguments.contains("-" + option.value());
-        }
-        if(parameter.getType().equals(int.class)){
-            int index = arguments.indexOf("-" + option.value());
-            value = Integer.parseInt(arguments.get(index + 1));
-        }
-        if(parameter.getType().equals(String.class)){
-            int index = arguments.indexOf("-" + option.value());
-            value = arguments.get(index + 1);
-        }
-        return value;
+        OptionParse optionParse = map.get(parameter.getType());
+        return optionParse.parse(arguments, option);
     }
+
 }

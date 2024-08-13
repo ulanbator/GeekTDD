@@ -54,7 +54,6 @@ public class ArgTest {
 
 
 
-
     // -g this is a list -d 1 2 -3 5
     @Disabled
     public void testSuccess2() {
